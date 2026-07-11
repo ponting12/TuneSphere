@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TuneSphere — YouTube Music Player</title>
+  <meta name="description" content="A clean, minimalist YouTube music player. Search and stream any song directly from YouTube." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" aria-label="Sidebar">
+      <div class="sidebar-brand">
+        <svg class="brand-logo" viewBox="0 0 24 24" width="30" height="30" fill="currentColor">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+        <span class="brand-title">TuneSphere</span>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Navigation">
+        <a href="#" class="sidebar-link active" id="navTrending" data-cat="trending">
+          <span class="nav-icon">🔥</span> Trending
+        </a>
+        <a href="#" class="sidebar-link" id="navPop" data-cat="pop music">
+          <span class="nav-icon">🎤</span> Pop
+        </a>
+        <a href="#" class="sidebar-link" id="navHiphop" data-cat="hip hop music">
+          <span class="nav-icon">🎧</span> Hip Hop
+        </a>
+        <a href="#" class="sidebar-link" id="navRock" data-cat="rock music">
+          <span class="nav-icon">🎸</span> Rock
+        </a>
+        <a href="#" class="sidebar-link" id="navElectronic" data-cat="electronic music">
+          <span class="nav-icon">🎛️</span> Electronic
+        </a>
+        <a href="#" class="sidebar-link" id="navIndie" data-cat="indie music 2024">
+          <span class="nav-icon">🎼</span> Indie
+        </a>
+        <a href="#" class="sidebar-link" id="navFavorites" data-cat="favorites">
+          <span class="nav-icon">❤️</span> Favorites
+        </a>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-heading">Playlists</h3>
+        <div class="playlist-creator">
+          <input id="playlistInput" type="text" placeholder="New playlist name..." autocomplete="off" maxlength="24" />
+          <button id="createPlaylistBtn" class="btn-icon-plus" type="button" aria-label="Create Playlist">+</button>
+        </div>
+        <div id="playlistList" class="playlist-list" role="list"></div>
+      </div>
+
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="search-box-wrapper">
+          <span class="search-icon-svg">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+          <input id="searchInput" type="search" placeholder="Search songs, artists..." autocomplete="off" />
+          <button id="searchBtn" type="button" class="search-btn" aria-label="Search">Search</button>
+        </div>
+        <div class="topbar-right">
+          <span id="searchStatusText" class="search-status"></span>
+        </div>
+      </header>
+
+      <!-- MAIN PAGE -->
+      <main class="page">
+
+        <!-- NOW PLAYING HERO -->
+        <section class="hero" id="heroSection" aria-label="Now playing">
+          <div class="hero-art-bg" id="heroBg"></div>
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <span class="hero-badge" id="heroBadge">LOADING...</span>
+            <h1 class="hero-title" id="heroTitle">Fetching top tracks…</h1>
+            <p class="hero-artist" id="heroArtist">Please wait</p>
+            <div class="hero-controls">
+              <button id="playFirstBtn" class="btn-hero-play" type="button">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                Play
+              </button>
+              <button id="shuffleBtn" class="btn-hero-secondary" type="button" aria-pressed="false">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+                Shuffle
+              </button>
+              <button id="repeatBtn" class="btn-hero-secondary" type="button" aria-pressed="false">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                Repeat
+              </button>
+            </div>
+          </div>
+          <div class="hero-thumbnail" id="heroThumbnail">
+            <img id="heroThumbImg" src="" alt="Now Playing" />
+          </div>
+        </section>
+
+        <!-- TRACKS + QUEUE -->
+        <section class="layout" aria-label="Library layout">
+
+          <!-- TRACKS GRID -->
+          <section id="tracks" class="tracks-section" aria-label="Tracks">
+            <div class="tracks-header">
+              <h2 class="section-title" id="currentViewTitle">Trending</h2>
+              <span class="tracks-count" id="tracksCount"></span>
+            </div>
+
+            <div id="loadingState" class="loading-state">
+              <div class="loading-spinner"></div>
+              <span>Fetching from YouTube...</span>
+            </div>
+
+            <div id="tracksList" class="tracks-grid" role="list"></div>
+
+            <div id="emptyState" class="empty-state" hidden>
+              <div class="empty-icon">🎵</div>
+              <div class="empty-title">No results found</div>
+              <div class="empty-text">Try a different search term or check your internet connection.</div>
+            </div>
+          </section>
+
+          <!-- QUEUE PANEL -->
+          <aside class="queue" aria-label="Queue">
+            <div class="queue-header">
+              <h2 class="section-title">Queue</h2>
+              <span class="tracks-count" id="queueCount">0</span>
+            </div>
+            <div class="queue-actions">
+              <button id="clearQueueBtn" class="btn-ghost-sm" type="button">Clear</button>
+            </div>
+            <div id="queueList" class="queue-list" role="list"></div>
+            <div id="queueEmpty" class="empty-state" hidden>
+              <div class="empty-icon">⏭</div>
+              <div class="empty-title">Queue is empty</div>
+              <div class="empty-text">Click a track to start playing.</div>
+            </div>
+          </aside>
+
+        </section>
+
+      </main>
+
+    </div><!-- /main-content -->
+
+  </div><!-- /app-layout -->
+
+  <!-- FIXED BOTTOM PLAYER -->
+  <footer class="player" aria-label="Player controls">
+
+    <!-- Left: Track info -->
+    <div class="player-left">
+      <div class="player-artwork-wrap">
+        <img id="playerArtwork" class="player-artwork" src="" alt="Track artwork" />
+      </div>
+      <div class="player-info">
+        <div class="player-title" id="playerTitle">Nothing playing</div>
+        <div class="player-artist" id="playerArtist">—</div>
+      </div>
+      <button class="heart-btn" id="favoriteToggleBtn" type="button" aria-label="Favorite">♥</button>
+    </div>
+
+    <!-- Center: Controls + Seek -->
+    <div class="player-center">
+      <div class="player-controls">
+        <button id="prevBtn" class="ctrl-btn" type="button" aria-label="Previous">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+        <button id="playBtn" class="ctrl-btn play-main" type="button" aria-label="Play/Pause">
+          <span id="playIcon">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+        </button>
+        <button id="nextBtn" class="ctrl-btn" type="button" aria-label="Next">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>
+        </button>
+      </div>
+      <div class="seek-row">
+        <span class="time-label" id="currentTime">0:00</span>
+        <div class="seek-track">
+          <input id="seekBar" type="range" min="0" step="0.1" value="0" aria-label="Seek" />
+          <div class="seek-fill" id="seekProgress"></div>
+        </div>
+        <span class="time-label" id="durationTime">0:00</span>
+      </div>
+    </div>
+
+    <!-- Right: Volume + Badge -->
+    <div class="player-right">
+      <button id="muteBtn" class="ctrl-btn mute-btn" type="button" aria-label="Mute">
+        <span id="muteIcon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        </span>
+      </button>
+      <div class="volume-track">
+        <input id="volumeBar" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
+        <div class="volume-fill" id="volumeProgress"></div>
+      </div>
+      <span id="badgeMode" class="mode-badge">Normal</span>
+    </div>
+
+  </footer>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+
+
+  <!-- HIDDEN YT IFRAME PLAYER - needs real dimensions for YT API -->
+  <div id="yt-player" style="position:absolute;width:200px;height:150px;top:-9999px;left:-9999px;pointer-events:none;visibility:hidden;"></div>
+
+  <!-- CORE SCRIPT - NO defer so onYouTubeIframeAPIReady is defined before YT API loads -->
+  <script src="script.js"></script>
+
+</body>
+</html>

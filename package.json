@@ -1,0 +1,24 @@
+{
+  "name": "tunesphere",
+  "version": "1.0.0",
+  "description": "TuneSphere — MERN Stack Music Player",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/index.js",
+    "client": "npm run dev --prefix client",
+    "start": "node server/index.js",
+    "install-all": "npm install && npm install --prefix client"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "mongoose": "^8.2.3",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
