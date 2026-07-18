@@ -1,5 +1,9 @@
 import { createContext, useContext, useState, useRef, useCallback, useEffect } from 'react';
-import { toggleFavorite as apiFavorite } from '../services/api';
+import {
+  toggleFavorite as apiFavorite,
+  deleteTrack as apiDeleteTrack,
+  removeFromPlaylist as apiRemoveFromPlaylist
+} from '../services/api';
 
 const PlayerContext = createContext(null);
 
@@ -15,7 +19,7 @@ export function PlayerProvider({ children }) {
   const [muted, setMuted]           = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration]     = useState(0);
-  const [theme, setTheme]           = useState(() => localStorage.getItem('ts_theme') || 'emerald');
+  const [theme, setTheme]           = useState(() => localStorage.getItem('ts_theme') || 'dark');
   const [playlists, setPlaylists]   = useState([]);
   const [viewMode, setViewMode]     = useState('all');
   const [toasts, setToasts]         = useState([]);
@@ -47,6 +51,7 @@ export function PlayerProvider({ children }) {
   // Filtered view
   const switchView = useCallback((mode, playlistTracks = null) => {
     setViewMode(mode);
+    if (mode === 'youtube_search') return;
     let filtered = [];
     if (mode === 'all')       filtered = [...allTracks];
     else if (mode === 'favorites') filtered = allTracks.filter(t => t.isFavorite);
@@ -69,6 +74,33 @@ export function PlayerProvider({ children }) {
       showToast('Error updating favorite', '⚠️');
     }
   }, [showToast]);
+
+  // Delete Track completely
+  const handleDeleteTrack = useCallback(async (trackId) => {
+    try {
+      await apiDeleteTrack(trackId);
+      setAllTracks(prev => prev.filter(t => t._id !== trackId));
+      setTracks(prev => prev.filter(t => t._id !== trackId));
+      showToast('Track deleted from library', '🗑️');
+    } catch (e) {
+      showToast('Failed to delete track', '⚠️');
+    }
+  }, [showToast]);
+
+  // Remove from Playlist
+  const handleRemoveFromPlaylist = useCallback(async (playlistId, trackId) => {
+    try {
+      const { data } = await apiRemoveFromPlaylist(playlistId, trackId);
+      setPlaylists(prev => prev.map(p => p._id === playlistId ? data : p));
+      if (viewMode === playlistId) {
+        setTracks(data.tracks || []);
+        setQueue((data.tracks || []).map((_, i) => i));
+      }
+      showToast('Removed from playlist', '🗑️');
+    } catch (e) {
+      showToast('Failed to remove track', '⚠️');
+    }
+  }, [viewMode, showToast]);
 
   // Next / Prev
   const nextTrack = useCallback(() => {
@@ -113,6 +145,8 @@ export function PlayerProvider({ children }) {
       audioRef, nextTrack, prevTrack,
       ytActive, setYtActive,
       handleToggleFavorite,
+      handleDeleteTrack,
+      handleRemoveFromPlaylist,
     }}>
       {children}
     </PlayerContext.Provider>

@@ -33,17 +33,12 @@ export default function Sidebar() {
     switchView(pl._id, pl.tracks);
   };
 
-  const themes = [
-    { key: 'emerald', label: 'Emerald Flow' },
-    { key: 'retrowave', label: 'Retro Wave' },
-    { key: 'deepspace', label: 'Deep Space' },
-    { key: 'sunset', label: 'Sunset Gold' },
-  ];
-
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <img className="brand-logo" src="/spotify-logo-spotify-social-media-icon-free-png.webp" alt="TuneSphere" />
+        <svg className="brand-logo-svg" viewBox="0 0 24 24">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
         <span className="brand-title">TuneSphere</span>
       </div>
 
@@ -76,15 +71,14 @@ export default function Sidebar() {
 
       <div className="sidebar-divider" />
 
-      <div className="sidebar-section theme-section">
-        <h3 className="sidebar-heading">Premium Themes</h3>
-        <div className="theme-grid">
-          {themes.map(t => (
-            <button key={t.key} className={`theme-dot ${theme === t.key ? 'active' : ''}`}
-              data-theme={t.key} title={t.label} onClick={() => changeTheme(t.key)} />
-          ))}
-        </div>
+      <div className="theme-toggle-container">
+        <h3 className="sidebar-heading">Theme</h3>
+        <button className="btn-theme-toggle" onClick={() => changeTheme(theme === 'light' ? 'dark' : 'light')}>
+          {theme === 'light' ? '⊙ Dark Mode' : '○ Light Mode'}
+        </button>
       </div>
+
+      <div className="sidebar-divider" />
 
       <div className="sidebar-footer">
         <span className="shortcuts-hint">Press <kbd>?</kbd> for Keyboard Help</span>

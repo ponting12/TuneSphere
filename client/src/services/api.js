@@ -15,3 +15,4 @@ export const removeFromPlaylist = (id, trackId) => api.put(`/playlists/${id}/rem
 export const deletePlaylist = (id)           => api.delete(`/playlists/${id}`);
 
 export const searchYouTube  = (q)            => api.get(`/youtube/search?q=${encodeURIComponent(q)}`);
+export const getSuggestions = (q)            => api.get(`/youtube/suggest?q=${encodeURIComponent(q)}`);

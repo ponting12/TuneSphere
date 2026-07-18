@@ -33,9 +33,10 @@ function AppContent() {
 
   // Apply theme class to document body
   useEffect(() => {
-    const themes = ['theme-emerald', 'theme-retrowave', 'theme-deepspace', 'theme-sunset'];
+    const themes = ['theme-emerald', 'theme-retrowave', 'theme-deepspace', 'theme-sunset', 'theme-dark', 'theme-light'];
     themes.forEach(t => document.body.classList.remove(t));
-    document.body.classList.add(`theme-${theme}`);
+    const activeTheme = (theme === 'dark' || theme === 'light') ? theme : 'dark';
+    document.body.classList.add(`theme-${activeTheme}`);
   }, [theme]);
 
   // Global keydown listeners for shortcuts

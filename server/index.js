@@ -11,7 +11,7 @@ const app = express();
 
 // ── Middleware ─────────────────────────────────────────────
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: true,           // allow any origin during development
   credentials: true,
 }));
 app.use(express.json());
@@ -20,8 +20,16 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded audio files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Serve public assets (bgimage.jpg etc.)
-app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
+// Serve React build if it exists
+const distPath = path.join(__dirname, '..', 'client', 'dist');
+const fs = require('fs');
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+} else {
+  // Development fallbacks
+  app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
+  app.use(express.static(path.join(__dirname, '..')));
+}
 
 // ── API Routes ─────────────────────────────────────────────
 app.use('/api/tracks',    require('./routes/tracks'));

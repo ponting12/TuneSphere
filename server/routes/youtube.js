@@ -41,4 +41,23 @@ router.get('/search', async (req, res) => {
   }
 });
 
+// GET /api/youtube/suggest?q=query
+router.get('/suggest', async (req, res) => {
+  const { q } = req.query;
+  if (!q) return res.json([]);
+  try {
+    const response = await axios.get('http://suggestqueries.google.com/complete/search', {
+      params: {
+        client: 'firefox',
+        ds:     'yt',
+        q,
+      },
+    });
+    const suggestions = response.data[1] || [];
+    res.json(suggestions);
+  } catch (err) {
+    res.json([]);
+  }
+});
+
 module.exports = router;

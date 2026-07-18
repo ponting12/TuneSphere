@@ -2,6 +2,8 @@ import { useRef } from 'react';
 import { usePlayer } from '../context/PlayerContext';
 import { uploadTrack } from '../services/api';
 
+const DEFAULT_ART = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23333' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='none' stroke='%23333' stroke-width='2'/><circle cx='50' cy='50' r='3' fill='%23333'/></svg>";
+
 export default function QueuePanel() {
   const { tracks, queue, currentIndex, setCurrentIndex, setIsPlaying, setQueue, showToast, setAllTracks, setTracks } = usePlayer();
   const dragRef = useRef(null);
@@ -64,7 +66,7 @@ export default function QueuePanel() {
       <div className="queue-list">
         {nowTrack && (
           <div className="queue-item playing">
-            <div className="queue-thumb"><img src={nowTrack.artwork || '/bgimage.jpg'} alt="" loading="lazy" /></div>
+            <div className="queue-thumb"><img src={nowTrack.artwork || DEFAULT_ART} alt="" loading="lazy" /></div>
             <div className="queue-text">
               <div className="queue-title">{nowTrack.title}</div>
               <div className="queue-artist">{nowTrack.artist}</div>
@@ -82,7 +84,7 @@ export default function QueuePanel() {
               onDrop={() => handleDrop(idx)}
               onClick={() => { setCurrentIndex(idx); setIsPlaying(true); }}
             >
-              <div className="queue-thumb"><img src={t.artwork || '/bgimage.jpg'} alt="" loading="lazy" /></div>
+              <div className="queue-thumb"><img src={t.artwork || DEFAULT_ART} alt="" loading="lazy" /></div>
               <div className="queue-text">
                 <div className="queue-title">{t.title}</div>
                 <div className="queue-artist">{t.artist}</div>

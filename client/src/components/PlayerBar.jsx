@@ -1,6 +1,8 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { usePlayer } from '../context/PlayerContext';
 
+const DEFAULT_ART = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23333' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='none' stroke='%23333' stroke-width='2'/><circle cx='50' cy='50' r='3' fill='%23333'/></svg>";
+
 export default function PlayerBar() {
   const {
     currentTrack, isPlaying, setIsPlaying,
@@ -18,43 +20,72 @@ export default function PlayerBar() {
 
   // ── Load YouTube IFrame API once ────────────────────────
   useEffect(() => {
-    if (document.getElementById('yt-api-script')) return;
-    const tag = document.createElement('script');
-    tag.id  = 'yt-api-script';
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(tag);
-
-    window.onYouTubeIframeAPIReady = () => {
-      ytRef.current = new window.YT.Player('yt-player', {
-        height: '1', width: '1',
-        playerVars: { autoplay: 0, controls: 0, disablekb: 1, fs: 0, rel: 0, modestbranding: 1 },
-        events: {
-          onReady: () => { ytReady.current = true; },
-          onStateChange: (e) => {
-            const S = window.YT.PlayerState;
-            if (e.data === S.PLAYING) {
-              setIsPlaying(true);
-              if (ytTimer.current) clearInterval(ytTimer.current);
-              ytTimer.current = setInterval(() => {
-                if (!ytRef.current) return;
-                setCurrentTime(ytRef.current.getCurrentTime?.() || 0);
-                setDuration(ytRef.current.getDuration?.() || 0);
-              }, 400);
-            } else if (e.data === S.PAUSED || e.data === S.CUED) {
-              setIsPlaying(false);
-              clearInterval(ytTimer.current);
-            } else if (e.data === S.ENDED) {
-              clearInterval(ytTimer.current);
-              setIsPlaying(false);
-              if (repeat) { ytRef.current.seekTo(0); ytRef.current.playVideo(); }
-              else nextTrack();
-            }
+    const initPlayer = () => {
+      if (ytRef.current) return;
+      try {
+        ytRef.current = new window.YT.Player('yt-player', {
+          height: '150', width: '200',
+          playerVars: { 
+            autoplay: 0, 
+            controls: 0, 
+            disablekb: 1, 
+            fs: 0, 
+            rel: 0, 
+            modestbranding: 1,
+            enablejsapi: 1,
+            origin: window.location.origin
           },
-          onError: () => { showToast('YouTube playback error', '⚠️'); nextTrack(); },
-        },
-      });
+          events: {
+            onReady: () => { ytReady.current = true; },
+            onStateChange: (e) => {
+              const S = window.YT.PlayerState;
+              if (e.data === S.PLAYING) {
+                setIsPlaying(true);
+                if (ytTimer.current) clearInterval(ytTimer.current);
+                ytTimer.current = setInterval(() => {
+                  if (!ytRef.current) return;
+                  setCurrentTime(ytRef.current.getCurrentTime?.() || 0);
+                  setDuration(ytRef.current.getDuration?.() || 0);
+                }, 400);
+              } else if (e.data === S.PAUSED || e.data === S.CUED) {
+                setIsPlaying(false);
+                clearInterval(ytTimer.current);
+              } else if (e.data === S.ENDED) {
+                clearInterval(ytTimer.current);
+                setIsPlaying(false);
+                if (repeat) { ytRef.current.seekTo(0); ytRef.current.playVideo(); }
+                else nextTrack();
+              }
+            },
+            onError: (e) => {
+              console.error('YouTube Player Error:', e.data);
+              let msg = 'YouTube playback error';
+              if (e.data === 2) msg = 'Invalid Video ID';
+              else if (e.data === 5) msg = 'HTML5 Player Error';
+              else if (e.data === 100) msg = 'Video not found';
+              else if (e.data === 101 || e.data === 150) msg = 'Playback restricted/blocked by owner';
+              showToast(`${msg} (Code: ${e.data})`, '⚠️');
+              nextTrack();
+            },
+          },
+        });
+      } catch (err) {
+        console.error('Error initializing YT Player:', err);
+      }
     };
-  }, []);
+
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = initPlayer;
+      if (!document.getElementById('yt-api-script')) {
+        const tag = document.createElement('script');
+        tag.id  = 'yt-api-script';
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+      }
+    }
+  }, [repeat, nextTrack, setIsPlaying, setCurrentTime, setDuration, showToast]);
 
   // ── React to track changes ───────────────────────────────
   useEffect(() => {
@@ -138,17 +169,18 @@ export default function PlayerBar() {
   return (
     <>
       {/* Hidden HTML5 audio element */}
-      <audio ref={audioRef} preload="metadata" crossOrigin="anonymous" />
+      <audio ref={audioRef} preload="metadata" />
 
       {/* Hidden YouTube IFrame container */}
-      <div id="yt-player" aria-hidden="true"
-        style={{ position:'fixed', width:0, height:0, overflow:'hidden', top:-9999, left:-9999, pointerEvents:'none' }} />
+      <div style={{ position: 'fixed', bottom: '110px', right: '20px', width: '200px', height: '150px', zIndex: -10, opacity: 0.01, pointerEvents: 'none', overflow: 'hidden' }}>
+        <div id="yt-player" aria-hidden="true" />
+      </div>
 
       <footer className="player">
         {/* Left: Track info */}
         <div className="player-left">
           <div className="player-art-container">
-            <img src={currentTrack?.artwork || '/bgimage.jpg'} alt="Album art" />
+            <img src={currentTrack?.artwork || DEFAULT_ART} alt="Album art" />
             <div className="art-sheen" />
           </div>
           <div className="track-info">

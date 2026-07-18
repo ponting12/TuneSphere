@@ -16,14 +16,14 @@ if (!fs.existsSync(DB_FILE)) {
 // Global connection state
 let useLocalDb = false;
 
-// 6 Royalty-free demo songs
+// 6 YouTube demo songs
 const DEMO_TRACKS = [
-  { _id: 'demo1', title: 'Neon Dreams',     artist: 'SoundHelix', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', artwork: '/bgimage.jpg', isDemo: true, isFavorite: false },
-  { _id: 'demo2', title: 'Midnight Pulse',  artist: 'SoundHelix', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', artwork: '/bgimage.jpg', isDemo: true, isFavorite: false },
-  { _id: 'demo3', title: 'Golden Hour',     artist: 'SoundHelix', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', artwork: '/bgimage.jpg', isDemo: true, isFavorite: false },
-  { _id: 'demo4', title: 'Skyline Haze',    artist: 'SoundHelix', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', artwork: '/bgimage.jpg', isDemo: true, isFavorite: false },
-  { _id: 'demo5', title: 'Electric Avenue', artist: 'SoundHelix', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', artwork: '/bgimage.jpg', isDemo: true, isFavorite: false },
-  { _id: 'demo6', title: 'Afterglow',       artist: 'SoundHelix', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', artwork: '/bgimage.jpg', isDemo: true, isFavorite: false },
+  { _id: 'demo1', title: 'Kesariya (Brahmastra)', artist: 'Arijit Singh', videoId: 'W1S9AbHpWFY', artwork: 'https://img.youtube.com/vi/W1S9AbHpWFY/mqdefault.jpg', isDemo: true, isFavorite: false },
+  { _id: 'demo2', title: 'Lollypop Lagelu', artist: 'Pawan Singh', videoId: 'zkAkwudNTj4', artwork: 'https://img.youtube.com/vi/zkAkwudNTj4/mqdefault.jpg', isDemo: true, isFavorite: false },
+  { _id: 'demo3', title: 'Chaleya (Jawan)', artist: 'Anirudh Ravichander, Arijit Singh', videoId: 'Bi7sSC046dk', artwork: 'https://img.youtube.com/vi/Bi7sSC046dk/mqdefault.jpg', isDemo: true, isFavorite: false },
+  { _id: 'demo4', title: 'Rinkiya Ke Papa', artist: 'Manoj Tiwari', videoId: '6-IPf5fvsLo', artwork: 'https://img.youtube.com/vi/6-IPf5fvsLo/mqdefault.jpg', isDemo: true, isFavorite: false },
+  { _id: 'demo5', title: 'Apna Bana Le (Bhediya)', artist: 'Arijit Singh, Sachin-Jigar', videoId: 'PYLxgPKtzZE', artwork: 'https://img.youtube.com/vi/PYLxgPKtzZE/mqdefault.jpg', isDemo: true, isFavorite: false },
+  { _id: 'demo6', title: 'Leke Prabhu Ka Naam', artist: 'Arijit Singh, Nikhita Gandhi', videoId: 'Wn8u-R3wJY8', artwork: 'https://img.youtube.com/vi/Wn8u-R3wJY8/mqdefault.jpg', isDemo: true, isFavorite: false },
 ];
 
 function setDbMode(mode) {

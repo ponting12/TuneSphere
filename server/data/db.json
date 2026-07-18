@@ -2,57 +2,75 @@
   "tracks": [
     {
       "_id": "demo1",
-      "title": "Neon Dreams",
-      "artist": "SoundHelix",
-      "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-      "artwork": "/bgimage.jpg",
+      "title": "Kesariya (Brahmastra)",
+      "artist": "Arijit Singh",
+      "videoId": "W1S9AbHpWFY",
+      "artwork": "https://img.youtube.com/vi/W1S9AbHpWFY/mqdefault.jpg",
       "isDemo": true,
       "isFavorite": false
     },
     {
       "_id": "demo2",
-      "title": "Midnight Pulse",
-      "artist": "SoundHelix",
-      "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-      "artwork": "/bgimage.jpg",
+      "title": "Lollypop Lagelu",
+      "artist": "Pawan Singh",
+      "videoId": "zkAkwudNTj4",
+      "artwork": "https://img.youtube.com/vi/zkAkwudNTj4/mqdefault.jpg",
       "isDemo": true,
       "isFavorite": false
     },
     {
       "_id": "demo3",
-      "title": "Golden Hour",
-      "artist": "SoundHelix",
-      "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-      "artwork": "/bgimage.jpg",
+      "title": "Chaleya (Jawan)",
+      "artist": "Anirudh Ravichander, Arijit Singh",
+      "videoId": "Bi7sSC046dk",
+      "artwork": "https://img.youtube.com/vi/Bi7sSC046dk/mqdefault.jpg",
       "isDemo": true,
       "isFavorite": false
     },
     {
       "_id": "demo4",
-      "title": "Skyline Haze",
-      "artist": "SoundHelix",
-      "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
-      "artwork": "/bgimage.jpg",
+      "title": "Rinkiya Ke Papa",
+      "artist": "Manoj Tiwari",
+      "videoId": "6-IPf5fvsLo",
+      "artwork": "https://img.youtube.com/vi/6-IPf5fvsLo/mqdefault.jpg",
       "isDemo": true,
       "isFavorite": false
     },
     {
       "_id": "demo5",
-      "title": "Electric Avenue",
-      "artist": "SoundHelix",
-      "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
-      "artwork": "/bgimage.jpg",
+      "title": "Apna Bana Le (Bhediya)",
+      "artist": "Arijit Singh, Sachin-Jigar",
+      "videoId": "PYLxgPKtzZE",
+      "artwork": "https://img.youtube.com/vi/PYLxgPKtzZE/mqdefault.jpg",
       "isDemo": true,
       "isFavorite": false
     },
     {
       "_id": "demo6",
-      "title": "Afterglow",
-      "artist": "SoundHelix",
-      "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
-      "artwork": "/bgimage.jpg",
+      "title": "Leke Prabhu Ka Naam",
+      "artist": "Arijit Singh, Nikhita Gandhi",
+      "videoId": "Wn8u-R3wJY8",
+      "artwork": "https://img.youtube.com/vi/Wn8u-R3wJY8/mqdefault.jpg",
       "isDemo": true,
       "isFavorite": false
+    },
+    {
+      "_id": "track_1784379352255_427",
+      "isFavorite": false,
+      "title": "Har Har Shambhu 4K Video Song | har har shambhu shiv mahadeva | Abhilipsa Panda | Jeetu Sharma",
+      "artist": "The ADAKI Upadhyay ",
+      "videoId": "RZK30grtV-0",
+      "artwork": "https://i.ytimg.com/vi/RZK30grtV-0/mqdefault.jpg",
+      "createdAt": "2026-07-18T12:55:52.255Z"
+    },
+    {
+      "_id": "track_1784379381275_144",
+      "isFavorite": false,
+      "title": "Har Har Mahadev (Video) Sachet Tandon, Parampara Tandon | DJ Shadow Dubai | Bhushan Kumar",
+      "artist": "T-Series",
+      "videoId": "uSb0M_UQE1o",
+      "artwork": "https://i.ytimg.com/vi/uSb0M_UQE1o/mqdefault.jpg",
+      "createdAt": "2026-07-18T12:56:21.275Z"
     }
   ],
   "playlists": []

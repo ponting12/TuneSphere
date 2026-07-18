@@ -2,10 +2,28 @@ import { useEffect, useRef } from 'react';
 import { usePlayer } from '../context/PlayerContext';
 import TrackCard from './TrackCard';
 
+const DEFAULT_ART = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23333' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='none' stroke='%23333' stroke-width='2'/><circle cx='50' cy='50' r='3' fill='%23333'/></svg>";
+
 export default function Hero() {
-  const { currentTrack, isPlaying, tracks, currentIndex } = usePlayer();
+  const { currentTrack, isPlaying, tracks, currentIndex, viewMode, playlists, setCurrentIndex, setIsPlaying } = usePlayer();
   const heroCanvasRef    = useRef(null);
   const vizAnimRef       = useRef(null);
+
+  let viewTitle = "Library";
+  if (viewMode === "favorites") viewTitle = "Favorites";
+  else if (viewMode === "uploads") viewTitle = "Uploaded Audio";
+  else if (viewMode === "youtube_search") viewTitle = "YouTube Search Results";
+  else if (viewMode !== "all") {
+    const pl = playlists.find(p => p._id === viewMode);
+    if (pl) viewTitle = pl.name;
+  }
+
+  const playLibrary = () => {
+    if (tracks.length > 0) {
+      setCurrentIndex(0);
+      setIsPlaying(true);
+    }
+  };
 
   // Idle + live visualizer animation
   useEffect(() => {
@@ -22,7 +40,7 @@ export default function Hero() {
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
 
-      const accent = getComputedStyle(document.body).getPropertyValue('--accent').trim() || '#1db954';
+      const accent = getComputedStyle(document.body).getPropertyValue('--text').trim() || '#ffffff';
       const cx = W / 2, cy = H / 2;
       const radius = Math.min(W, H) * 0.4;
       const bars = 60, now = Date.now() / 1000;
@@ -35,8 +53,8 @@ export default function Hero() {
           : Math.abs(Math.sin(now * 1.2 + i * 0.35)) * 10 + 2;
         ctx.strokeStyle = accent;
         ctx.globalAlpha = isPlaying
-          ? 0.3 + Math.abs(Math.sin(now * 2 + i * 0.2)) * 0.7
-          : 0.15 + Math.abs(Math.sin(now + i * 0.15)) * 0.25;
+          ? 0.2 + Math.abs(Math.sin(now * 2 + i * 0.2)) * 0.5
+          : 0.1 + Math.abs(Math.sin(now + i * 0.15)) * 0.15;
         ctx.lineWidth = 2.2;
         ctx.lineCap   = 'round';
         ctx.beginPath();
@@ -57,7 +75,7 @@ export default function Hero() {
         <div className="hero-art">
           <div className="vinyl-container">
             <div className={`vinyl ${isPlaying ? 'spinning' : ''}`}>
-              <img src={currentTrack?.artwork || '/bgimage.jpg'} alt="Album art" className="vinyl-art" />
+              <img src={currentTrack?.artwork || DEFAULT_ART} alt="Album art" className="vinyl-art" />
               <div className="vinyl-overlay" />
               <div className="vinyl-hole" />
             </div>
@@ -69,13 +87,16 @@ export default function Hero() {
           <h1 className="hero-track-title">{currentTrack?.title || 'TuneSphere'}</h1>
           <p className="hero-track-artist">{currentTrack?.artist || 'Click a track to play'}</p>
           <div className="hero-actions">
-            <button className="btn btn-primary btn-lg" onClick={() => {}}>▶ Play Library</button>
+            <button className="btn-primary" onClick={playLibrary}>▶ Play Library</button>
           </div>
         </div>
       </section>
 
       {/* Track Grid */}
       <div className="tracks-grid-wrapper">
+        <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '16px', letterSpacing: '-0.5px' }}>
+          {viewTitle}
+        </h2>
         <div className="tracks-grid" role="list">
           {tracks.length === 0 ? (
             <div className="empty-state">
