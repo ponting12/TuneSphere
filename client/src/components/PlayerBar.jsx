@@ -17,6 +17,12 @@ export default function PlayerBar() {
   const ytRef    = useRef(null);  // YT.Player instance
   const ytReady  = useRef(false);
   const ytTimer  = useRef(null);
+  const pendingVideoIdRef = useRef(null);  // videoId to load when YT becomes ready
+  const loadedVideoIdRef  = useRef(null);  // videoId currently loaded in YT player
+  const isPlayingRef = useRef(isPlaying);  // keep latest isPlaying for callbacks
+
+  // Keep isPlayingRef in sync
+  isPlayingRef.current = isPlaying;
 
   // ── Load YouTube IFrame API once ────────────────────────
   useEffect(() => {
@@ -36,7 +42,17 @@ export default function PlayerBar() {
             origin: window.location.origin
           },
           events: {
-            onReady: () => { ytReady.current = true; },
+            onReady: () => {
+              ytReady.current = true;
+              // If there was a pending video from before YT was ready, load it now
+              if (pendingVideoIdRef.current) {
+                const vid = pendingVideoIdRef.current;
+                pendingVideoIdRef.current = null;
+                if (isPlayingRef.current) ytRef.current.loadVideoById(vid);
+                else                      ytRef.current.cueVideoById(vid);
+                loadedVideoIdRef.current = vid;
+              }
+            },
             onStateChange: (e) => {
               const S = window.YT.PlayerState;
               if (e.data === S.PLAYING) {
@@ -95,13 +111,20 @@ export default function PlayerBar() {
       // YouTube track
       setYtActive(true);
       if (audioRef.current) { audioRef.current.pause(); audioRef.current.src = ''; }
+      
       if (ytReady.current && ytRef.current) {
+        // YT player is ready — load now
+        loadedVideoIdRef.current = currentTrack.videoId;
         if (isPlaying) ytRef.current.loadVideoById(currentTrack.videoId);
         else           ytRef.current.cueVideoById(currentTrack.videoId);
+      } else {
+        // YT player not ready yet — store as pending; onReady will load it
+        pendingVideoIdRef.current = currentTrack.videoId;
       }
     } else {
       // HTML5 audio track
       setYtActive(false);
+      pendingVideoIdRef.current = null;
       if (ytRef.current && ytReady.current) { try { ytRef.current.stopVideo(); } catch {} }
       clearInterval(ytTimer.current);
       if (audioRef.current) {
@@ -114,13 +137,20 @@ export default function PlayerBar() {
   // ── React to isPlaying changes ──────────────────────────
   useEffect(() => {
     if (currentTrack?.videoId && ytReady.current && ytRef.current) {
-      if (isPlaying) ytRef.current.playVideo();
-      else           ytRef.current.pauseVideo();
+      // If the correct video isn't loaded yet, load it first
+      if (loadedVideoIdRef.current !== currentTrack.videoId) {
+        loadedVideoIdRef.current = currentTrack.videoId;
+        if (isPlaying) ytRef.current.loadVideoById(currentTrack.videoId);
+        else           ytRef.current.cueVideoById(currentTrack.videoId);
+      } else {
+        if (isPlaying) ytRef.current.playVideo();
+        else           ytRef.current.pauseVideo();
+      }
     } else if (audioRef.current) {
       if (isPlaying) audioRef.current.play().catch(() => {});
       else           audioRef.current.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, currentTrack]);
 
   // ── Volume sync ─────────────────────────────────────────
   useEffect(() => {
@@ -151,8 +181,21 @@ export default function PlayerBar() {
     return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
   };
 
+  // Persist last played for "Continue listening" rail
+  useEffect(() => {
+    if (!currentTrack?._id) return;
+    try {
+      const raw = localStorage.getItem('ts_last_played');
+      const parsed = raw ? JSON.parse(raw) : [];
+      const arr = Array.isArray(parsed) ? parsed : [];
+      const next = [currentTrack._id, ...arr.filter((id) => id !== currentTrack._id)];
+      localStorage.setItem('ts_last_played', JSON.stringify(next.slice(0, 12)));
+    } catch {}
+  }, [currentTrack?._id]);
+
   const seekPct = duration > 0 ? (currentTime / duration) * 100 : 0;
   const volPct  = volume * 100;
+
 
   const handleSeek = (e) => {
     const val = Number(e.target.value);

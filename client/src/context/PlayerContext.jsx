@@ -38,8 +38,7 @@ export function PlayerProvider({ children }) {
   const changeTheme = useCallback((name) => {
     setTheme(name);
     localStorage.setItem('ts_theme', name);
-    showToast(`Theme: ${name}`, '🎨');
-  }, [showToast]);
+  }, []);
 
   // Load all tracks into library
   const loadLibrary = useCallback((loadedTracks) => {

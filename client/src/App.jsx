@@ -8,6 +8,7 @@ import QueuePanel from './components/QueuePanel';
 import PlayerBar from './components/PlayerBar';
 import AddSongModal from './components/AddSongModal';
 import Toast from './components/Toast';
+import LastPlayedRail from './components/LastPlayedRail';
 
 function AppContent() {
   const { loadLibrary, setPlaylists, theme } = usePlayer();
@@ -63,6 +64,7 @@ function AppContent() {
       {/* Main Content Area */}
       <main className="main-content">
         <TopBar onAddSong={() => setShowAddSong(true)} />
+        <LastPlayedRail />
         <Hero />
       </main>
 

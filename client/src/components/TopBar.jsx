@@ -46,7 +46,8 @@ export default function TopBar({ onAddSong }) {
           setQueue(ytTracks.map((_, i) => i));
           showToast(`Found ${ytTracks.length} tracks on YouTube`, '🔍');
         } catch (err) {
-          showToast('YouTube search failed. Check key.', '⚠️');
+          const msg = err?.response?.data?.error || err?.message || 'YouTube search failed';
+          showToast(msg, '⚠️');
         }
       }
     } else {
@@ -70,7 +71,8 @@ export default function TopBar({ onAddSong }) {
         setQueue(ytTracks.map((_, i) => i));
         showToast(`Found ${ytTracks.length} tracks on YouTube`, '🔍');
       } catch (err) {
-        showToast('YouTube search failed. Check key.', '⚠️');
+        const msg = err?.response?.data?.error || err?.message || 'YouTube search failed';
+        showToast(msg, '⚠️');
       }
     }
   };

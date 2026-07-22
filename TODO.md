@@ -1,15 +1,13 @@
-# TuneSphere Fix Log
+# Bug Fix: Song Not Playing
 
-## Goal
-Fix issue where “song is not playing” by addressing endpoint/player bugs.
+## Root Cause
+Race condition between YouTube iframe API initialization and track loading in `PlayerBar.jsx`.
 
-## Completed
-- Identified that `index.html` (root) loads `script.js`, while React frontend `client/index.html` loads only the Vite/React bundle. If root `index.html` is used, React playback code may be bypassed or conflicting with `script.js`.
-- Found React `PlayerBar` uses a hidden `div id="yt-player"`, but also the legacy `script.js` creates its own `ytPlayer = new YT.Player('yt-player', ...)`, which can conflict if both run.
-
-## Next steps
-1. Update root `index.html` to also use React app (or remove legacy `script.js`), so only one playback controller runs.
-2. Ensure backend YouTube endpoint is consistent (`/api/youtube/search`).
-3. Run app and verify that clicking play triggers YouTube IFrame API state.
-4. If needed, fix any remaining mismatches in YouTube track objects (must include `videoId`).
+## Steps
+1. [x] Add refs to track pending video loads and loaded video state
+2. [x] Fix `currentTrack` effect to handle YT not-ready case by storing pending video ID
+3. [x] Fix YT `onReady` to load the pending video when player becomes ready
+4. [x] Add `currentTrack` to `isPlaying` effect dependencies so it re-runs on track change
+5. [x] Ensure `isPlaying` effect loads video if not already loaded before playing
+6. [x] Test the fix
 
