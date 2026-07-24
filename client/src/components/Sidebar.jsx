@@ -1,10 +1,24 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { usePlayer } from '../context/PlayerContext';
 import { createPlaylist as apiCreate, deletePlaylist as apiDelete } from '../services/api';
 
 export default function Sidebar() {
   const { theme, changeTheme, viewMode, switchView, playlists, setPlaylists, showToast } = usePlayer();
   const [playlistName, setPlaylistName] = useState('');
+  const toggleRef = useRef(null);
+
+  const handleThemeToggle = useCallback(() => {
+    // Add spin animation
+    if (toggleRef.current) {
+      toggleRef.current.classList.remove('spinning');
+      void toggleRef.current.offsetWidth;
+      toggleRef.current.classList.add('spinning');
+    }
+    // Actually change theme after a small delay for animation to show
+    setTimeout(() => {
+      changeTheme(theme === 'light' ? 'dark' : 'light');
+    }, 200);
+  }, [theme, changeTheme]);
 
   const handleCreate = async () => {
     const name = playlistName.trim();
@@ -73,8 +87,9 @@ export default function Sidebar() {
 
       <div className="theme-toggle-container">
         <h3 className="sidebar-heading">Theme</h3>
-        <button className="btn-theme-toggle" onClick={() => changeTheme(theme === 'light' ? 'dark' : 'light')}>
-          {theme === 'light' ? '⊙ Dark Mode' : '○ Light Mode'}
+        <button className="btn-theme-toggle" ref={toggleRef} onClick={handleThemeToggle}>
+          <span className="toggle-icon">{theme === 'light' ? '🌙' : '☀️'}</span>{' '}
+          {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
         </button>
       </div>
 

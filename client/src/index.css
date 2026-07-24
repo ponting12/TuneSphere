@@ -3,38 +3,50 @@
    Minimalist Monochrome (Black & White) Design System
    ------------------------------------------------------------- */
 
-/* THEME 1: Minimal Dark (Default) */
+/* THEME 1: Minimal Dark (Default) – Deep Space Ambient */
 .theme-dark {
   --bg: #0a0a0c;
-  --bg-panel: #111115;
-  --bg-panel-light: #1b1b22;
+  --bg-panel: rgba(17, 17, 21, 0.85);
+  --bg-panel-light: rgba(27, 27, 34, 0.75);
   --border: rgba(255, 255, 255, 0.06);
   --border-focus: rgba(255, 255, 255, 0.16);
   --text: #ffffff;
   --muted: #8e8e9c;
-  --accent: #1db954; /* Spotify-inspired music green */
+  --accent: #1db954;
   --accent-glow: rgba(29, 185, 84, 0.25);
   --accent-bg-glow: rgba(29, 185, 84, 0.08);
-  --danger: #ff3366; /* Elegant rose red */
+  --danger: #ff3366;
   --shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
   --selection: rgba(255, 255, 255, 0.12);
+  --glow-color: rgba(29, 185, 84, 0.12);
+  --bg-glow-1: rgba(29, 185, 84, 0.03);
+  --bg-glow-2: rgba(88, 100, 255, 0.03);
+  --glass-bg: rgba(17, 17, 21, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-blur: 16px;
 }
 
-/* THEME 2: Minimal Light */
+/* THEME 2: Minimal Light – Warm Sunrise Glow */
 .theme-light {
   --bg: #fcfcfd;
-  --bg-panel: #f1f3f6;
-  --bg-panel-light: #e4e7ec;
+  --bg-panel: rgba(241, 243, 246, 0.85);
+  --bg-panel-light: rgba(228, 231, 236, 0.7);
   --border: rgba(0, 0, 0, 0.05);
   --border-focus: rgba(0, 0, 0, 0.12);
   --text: #000000;
   --muted: #666666;
-  --accent: #16a34a; /* Professional forest green */
+  --accent: #16a34a;
   --accent-glow: rgba(22, 163, 74, 0.2);
   --accent-bg-glow: rgba(22, 163, 74, 0.06);
-  --danger: #e11d48; /* Sophisticated rose red */
+  --danger: #e11d48;
   --shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
   --selection: rgba(0, 0, 0, 0.08);
+  --glow-color: rgba(245, 158, 11, 0.08);
+  --bg-glow-1: rgba(245, 158, 11, 0.03);
+  --bg-glow-2: rgba(251, 191, 36, 0.02);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-blur: 12px;
 }
 
 /* RESET & BASE */
@@ -305,11 +317,31 @@ button {
   transition: var(--transition-fast);
   background: var(--bg-panel-light);
   color: var(--text);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-theme-toggle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-theme-toggle:hover::before {
+  opacity: 1;
 }
 
 .btn-theme-toggle:hover {
   border-color: var(--border-focus);
   background: var(--bg);
+}
+
+.btn-theme-toggle .toggle-icon {
+  display: inline-block;
 }
 
 .sidebar-footer {
@@ -387,6 +419,17 @@ button {
   border-radius: var(--radius-sm);
   background: var(--accent);
   color: #ffffff;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
+}
+
+.search-box .btn-search:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 16px var(--accent-glow);
+  opacity: 0.92;
+}
+
+.search-box .btn-search:active {
+  transform: scale(0.94);
 }
 
 .search-modes-wrapper {
@@ -418,11 +461,17 @@ button {
 
 .btn-mode-tab:hover {
   color: var(--text);
+  background: var(--bg-panel-light);
 }
 
 .btn-mode-tab.active {
   background: var(--accent);
   color: #ffffff;
+}
+
+.btn-mode-tab.active:hover {
+  background: var(--accent);
+  filter: brightness(1.1);
 }
 
 .btn-add-song {
@@ -432,11 +481,17 @@ button {
   border-radius: var(--radius-md);
   font-size: 0.85rem;
   font-weight: 600;
-  transition: opacity var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
 }
 
 .btn-add-song:hover {
-  opacity: 0.9;
+  opacity: 0.92;
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.btn-add-song:active {
+  transform: scale(0.95);
 }
 
 /* PAGE WRAPPER */
@@ -572,6 +627,12 @@ button {
 
 .btn-primary:hover {
   opacity: 0.9;
+  transform: scale(1.04);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.btn-primary:active {
+  transform: scale(0.96);
 }
 
 @keyframes spin {
@@ -919,15 +980,30 @@ button {
   font-size: 1.1rem;
   color: var(--muted);
   padding: 4px;
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
 .favorite-heart-btn:hover {
   color: var(--text);
+  transform: scale(1.25);
 }
 
 .favorite-heart-btn.favorited {
   color: var(--text);
+}
+
+.favorite-heart-btn.favorited:hover {
+  color: var(--accent);
+  transform: scale(1.25);
+  animation: heartbeat 0.4s ease;
+}
+
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.3); }
+  50%  { transform: scale(0.95); }
+  75%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 .player-center {
@@ -959,6 +1035,11 @@ button {
 
 .icon-btn:hover {
   color: var(--text);
+  transform: scale(1.15);
+}
+
+.icon-btn:active {
+  transform: scale(0.9);
 }
 
 .play-btn {
@@ -972,11 +1053,16 @@ button {
   justify-content: center;
   font-size: 1rem;
   font-weight: bold;
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .play-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.play-btn:active {
+  transform: scale(0.92);
 }
 
 .timeline {
@@ -1052,6 +1138,24 @@ button {
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   color: var(--muted);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.player-badges .btn:hover {
+  border-color: var(--text);
+  background: var(--bg-panel-light);
+  transform: scale(1.06);
+}
+
+.player-badges .btn.active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.player-badges .btn.active:hover {
+  filter: brightness(1.2);
+  transform: scale(1.06);
 }
 
 .player-badges .btn.active {
@@ -1272,6 +1376,337 @@ button {
   color: var(--muted);
 }
 
+/* ── NOW PLAYING CARD (Premium Spotify-style) ────────────────── */
+.np-spotify-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Subtle radial glow overlay */
+.np-spotify-card::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.np-spotify-card::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.np-spotify-card.np-spotify-active {
+  border-color: var(--accent);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 0 0 32px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Top row: artwork + info */
+.np-spotify-top {
+  display: flex;
+  gap: 24px;
+  padding: 24px 24px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.np-spotify-art {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #000;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.np-spotify-art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.np-spotify-card:hover .np-spotify-art-img {
+  transform: scale(1.05);
+}
+
+.np-spotify-art-play-btn {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.25s ease, backdrop-filter 0.25s ease;
+  backdrop-filter: blur(4px);
+}
+
+.np-spotify-art:hover .np-spotify-art-play-btn {
+  opacity: 1;
+}
+
+/* Info section */
+.np-spotify-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  position: relative;
+  padding-right: 32px;
+}
+
+.np-spotify-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.np-spotify-status {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--accent-bg-glow);
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+}
+
+.np-spotify-paused-dot {
+  font-size: 0.5rem;
+  color: var(--muted);
+}
+
+/* Equalizer bars */
+.np-spotify-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+}
+
+.np-eq-bar {
+  width: 3px;
+  background: linear-gradient(to top, var(--accent), var(--accent));
+  border-radius: 3px;
+  animation: npEqAnim 0.6s ease-in-out infinite alternate;
+  transform-origin: bottom;
+  opacity: 0.8;
+}
+
+.np-eq-1 { height: 8px;  animation-delay: 0s;     }
+.np-eq-2 { height: 14px; animation-delay: 0.15s;  }
+.np-eq-3 { height: 10px; animation-delay: 0.3s;   }
+.np-eq-4 { height: 6px;  animation-delay: 0.45s;  }
+
+@keyframes npEqAnim {
+  0%   { opacity: 0.4; transform: scaleY(0.5); }
+  100% { opacity: 1;   transform: scaleY(1);   }
+}
+
+.np-spotify-title {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+.np-spotify-artist {
+  font-size: 0.95rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 400;
+}
+
+.np-spotify-fav {
+  position: absolute;
+  top: 6px;
+  right: 0;
+  font-size: 1.4rem;
+  color: var(--muted);
+  padding: 6px;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  background: var(--bg-panel-light);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.np-spotify-fav:hover {
+  color: var(--text);
+  transform: scale(1.12);
+  background: var(--bg-panel);
+}
+
+.np-spotify-fav-active {
+  color: var(--accent) !important;
+  background: var(--accent-bg-glow) !important;
+}
+
+/* Bottom: controls + progress */
+.np-spotify-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 24px 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.np-spotify-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.np-spotify-ctrl-btn {
+  font-size: 1.15rem;
+  color: var(--muted);
+  padding: 8px;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  border-radius: 50%;
+}
+
+.np-spotify-ctrl-btn:hover {
+  color: var(--text);
+  transform: scale(1.1);
+  background: var(--bg-panel-light);
+}
+
+.np-spotify-main-play-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.np-spotify-main-play-btn:hover {
+  transform: scale(1.08);
+  background: var(--accent);
+  filter: brightness(1.1);
+  box-shadow: 0 6px 24px var(--accent-glow);
+}
+
+.np-spotify-main-play-btn:active {
+  transform: scale(0.95);
+}
+
+.np-spotify-progress-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.np-spotify-time {
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  min-width: 36px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.np-spotify-time:last-child {
+  text-align: right;
+}
+
+.np-spotify-track {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 99px;
+  position: relative;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.np-spotify-track-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.np-spotify-track-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 0.3s linear;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Glowing dot on the progress bar */
+.np-spotify-track::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 12px var(--accent-glow);
+  opacity: 0;
+  left: calc(var(--np-progress, 0%) - 5px);
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.np-spotify-track:hover::after {
+  opacity: 1;
+}
+
+.np-spotify-track:hover {
+  height: 6px;
+}
+
 /* GENERAL DIALOG */
 .dialog {
   position: fixed;
@@ -1469,4 +1904,414 @@ button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* =============================================================
+   ✨ UNIQUE THEME EFFECTS: Dark & Light Mode
+   ============================================================= */
+
+/* ── 1. Animated Ambient Background ───────────────────────── */
+.app-layout::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity var(--transition-normal);
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, var(--bg-glow-1), transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, var(--bg-glow-2), transparent 70%);
+  animation: ambientShift 12s ease-in-out infinite alternate;
+}
+
+.theme-dark .app-layout::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(29, 185, 84, 0.04), transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(88, 100, 255, 0.04), transparent 70%);
+}
+
+.theme-light .app-layout::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(245, 158, 11, 0.04), transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(251, 191, 36, 0.03), transparent 70%);
+}
+
+@keyframes ambientShift {
+  0%   { transform: scale(1) rotate(0deg); }
+  50%  { transform: scale(1.03) rotate(1deg); }
+  100% { transform: scale(1) rotate(-0.5deg); }
+}
+
+/* ── 3. Glassmorphism Panel Enhancement ──────────────────── */
+.sidebar,
+.queue,
+.np-spotify-card,
+.modal-box,
+.dialog-box {
+  backdrop-filter: blur(var(--glass-blur, 8px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 8px));
+  background: var(--glass-bg) !important;
+  border-color: var(--glass-border) !important;
+  transition: background var(--transition-normal), backdrop-filter var(--transition-normal), border-color var(--transition-normal);
+}
+
+.hero,
+.player {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.track-card {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  background: var(--glass-bg) !important;
+  transition: background var(--transition-normal), backdrop-filter var(--transition-normal), transform var(--transition-fast);
+}
+
+.track-card:hover {
+  transform: translateY(-2px);
+}
+
+/* ── 4. Theme Transition Overlay ─────────────────────────── */
+#theme-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: none;
+}
+
+#theme-overlay.animating {
+  animation: themeRipple 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes themeRipple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+  40% {
+    opacity: 0.7;
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+    filter: brightness(1);
+  }
+}
+
+/* ── 5. Theme Toggle Button Animation ────────────────────── */
+.btn-theme-toggle {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.btn-theme-toggle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.btn-theme-toggle:hover::after {
+  opacity: 1;
+  background: var(--accent-bg-glow);
+}
+
+.btn-theme-toggle.spinning {
+  animation: spinToggle 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes spinToggle {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(0.92); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* ── 7. Vinyl Reflection / Sheen Effect ──────────────────── */
+.vinyl::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255,255,255,0.02) 60deg,
+    transparent 120deg,
+    rgba(255,255,255,0.01) 180deg,
+    transparent 240deg,
+    rgba(255,255,255,0.02) 300deg,
+    transparent 360deg
+  );
+  animation: vinylSheen 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes vinylSheen {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── 8. Sidebar Brand Icon Glow ──────────────────────────── */
+.sidebar-brand .brand-logo-svg {
+  filter: drop-shadow(0 0 6px var(--accent-glow));
+  transition: filter var(--transition-normal);
+}
+
+/* ── 9. Scrollbar Theme Colors ──────────────────────────── */
+.theme-dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* =============================================================
+   ✨ DARK MODE SPECIFIC EFFECTS
+   ============================================================= */
+
+/* ── Dark Mode: Starfield Twinkle ─────────────────────── */
+.theme-dark .starfield-container {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.theme-dark .starfield-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 50%;
+  animation: starTwinkle var(--star-duration, 4s) ease-in-out infinite alternate;
+  opacity: 0;
+}
+
+@keyframes starTwinkle {
+  0%   { opacity: 0; transform: scale(0.5); }
+  50%  { opacity: 0.8; transform: scale(1.2); }
+  100% { opacity: 0.2; transform: scale(0.6); }
+}
+
+/* ── Dark Mode: Aurora Borealis Sweep ─────────────────── */
+.theme-dark .aurora-sweep {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 140% 40% at 30% -20%, rgba(0, 255, 170, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 120% 35% at 70% -10%, rgba(120, 80, 255, 0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 30% at 50% -15%, rgba(29, 185, 84, 0.04) 0%, transparent 50%);
+  animation: auroraDrift 14s ease-in-out infinite alternate;
+}
+
+@keyframes auroraDrift {
+  0%   { transform: translateX(0%) scale(1); opacity: 0.6; }
+  25%  { transform: translateX(5%) scale(1.02); opacity: 0.8; }
+  50%  { transform: translateX(-3%) scale(0.98); opacity: 1; }
+  75%  { transform: translateX(8%) scale(1.01); opacity: 0.7; }
+  100% { transform: translateX(-5%) scale(1.03); opacity: 0.9; }
+}
+
+/* ── Dark Mode: Vinyl Pulse Ring ──────────────────────── */
+.theme-dark .hero .vinyl-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 130px;
+  height: 130px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1.5px solid rgba(29, 185, 84, 0.12);
+  animation: pulseRingDark 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes pulseRingDark {
+  0%   { width: 130px; height: 130px; opacity: 0.6; border-color: rgba(29, 185, 84, 0.12); }
+  50%  { width: 170px; height: 170px; opacity: 0.3; border-color: rgba(29, 185, 84, 0.05); }
+  100% { width: 130px; height: 130px; opacity: 0.6; border-color: rgba(29, 185, 84, 0.12); }
+}
+
+.theme-dark .hero .vinyl-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(29, 185, 84, 0.06);
+  animation: pulseRingDarkOuter 4s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.5s;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes pulseRingDarkOuter {
+  0%   { width: 150px; height: 150px; opacity: 0.4; }
+  50%  { width: 200px; height: 200px; opacity: 0.1; }
+  100% { width: 150px; height: 150px; opacity: 0.4; }
+}
+
+/* ── Dark Mode: Sidebar accent border glow ────────────── */
+.theme-dark .sidebar-link.active {
+  box-shadow: inset 2px 0 0 var(--accent), 0 0 20px var(--accent-glow);
+}
+
+/* ── Dark Mode: Player bar subtle top rim glow ─────────── */
+.theme-dark .player::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+  opacity: 0.4;
+  animation: playerRimGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes playerRimGlow {
+  0%   { opacity: 0.2; transform: scaleX(0.8); }
+  50%  { opacity: 0.6; transform: scaleX(1); }
+  100% { opacity: 0.2; transform: scaleX(0.8); }
+}
+
+/* =============================================================
+   ✨ LIGHT MODE SPECIFIC EFFECTS
+   ============================================================= */
+
+/* ── Light Mode: Warm Sun Rays ────────────────────────── */
+.theme-light .sunrays-container {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.theme-light .sunray {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  width: 2px;
+  height: 200%;
+  background: linear-gradient(
+    180deg,
+    rgba(245, 158, 11, 0.04) 0%,
+    rgba(251, 191, 36, 0.02) 40%,
+    transparent 70%
+  );
+  transform-origin: top center;
+  animation: sunraySweep 20s linear infinite;
+}
+
+.theme-light .sunray:nth-child(1) { transform: translateX(-50%) rotate(-30deg);  animation-delay: 0s; }
+.theme-light .sunray:nth-child(2) { transform: translateX(-50%) rotate(-15deg);  animation-delay: -3s; }
+.theme-light .sunray:nth-child(3) { transform: translateX(-50%) rotate(0deg);    animation-delay: -6s; }
+.theme-light .sunray:nth-child(4) { transform: translateX(-50%) rotate(15deg);   animation-delay: -9s; }
+.theme-light .sunray:nth-child(5) { transform: translateX(-50%) rotate(30deg);   animation-delay: -12s; }
+.theme-light .sunray:nth-child(6) { transform: translateX(-50%) rotate(45deg);   animation-delay: -15s; }
+.theme-light .sunray:nth-child(7) { transform: translateX(-50%) rotate(-45deg);  animation-delay: -18s; }
+
+@keyframes sunraySweep {
+  0%   { opacity: 0; transform: translateX(-50%) rotate(var(--ray-angle, 0deg)) scaleY(0.8); }
+  10%  { opacity: 1; }
+  50%  { opacity: 0.6; transform: translateX(-50%) rotate(var(--ray-angle, 0deg)) scaleY(1.2); }
+  90%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) rotate(var(--ray-angle, 0deg)) scaleY(0.8); }
+}
+
+/* ── Light Mode: Dust Motes ───────────────────────────── */
+.theme-light .dust-mote {
+  position: absolute;
+  width: var(--mote-size, 4px);
+  height: var(--mote-size, 4px);
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: dustFloat var(--mote-duration, 12s) ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes dustFloat {
+  0%   { transform: translateY(100vh) translateX(0px) scale(0.5); opacity: 0; }
+  20%  { opacity: 0.6; }
+  50%  { transform: translateY(50vh) translateX(30px) scale(1); opacity: 0.4; }
+  80%  { opacity: 0.6; }
+  100% { transform: translateY(-10vh) translateX(-20px) scale(0.3); opacity: 0; }
+}
+
+/* ── Light Mode: Warm glow ambient sweep ──────────────── */
+.theme-light .warm-sweep {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 160% 50% at 30% 0%, rgba(245, 158, 11, 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 120% 40% at 70% 100%, rgba(251, 191, 36, 0.02) 0%, transparent 50%);
+  animation: warmDrift 12s ease-in-out infinite alternate;
+}
+
+@keyframes warmDrift {
+  0%   { transform: translateX(0%) scale(1); opacity: 0.5; }
+  33%  { transform: translateX(8%) scale(1.02); opacity: 0.8; }
+  66%  { transform: translateX(-5%) scale(0.98); opacity: 0.6; }
+  100% { transform: translateX(3%) scale(1.01); opacity: 0.9; }
+}
+
+/* ── Light Mode: Card hover warm glow ─────────────────── */
+.theme-light .track-card:hover {
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.08), 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* ── Light Mode: Player bar subtle warm rim ───────────── */
+.theme-light .player::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.15), transparent);
+  opacity: 0.5;
+  animation: playerRimGlowLight 5s ease-in-out infinite alternate;
+}
+
+@keyframes playerRimGlowLight {
+  0%   { opacity: 0.3; transform: scaleX(0.8); }
+  50%  { opacity: 0.7; transform: scaleX(1); }
+  100% { opacity: 0.3; transform: scaleX(0.8); }
+}
+
+/* Smooth transitions on all themed elements */
+.theme-dark, .theme-light {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar, .queue, .player, .topbar, .hero, .track-card,
+.np-spotify-card, .modal-box, .dialog-box {
+  transition: 
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    backdrop-filter 0.3s ease !important;
 }

@@ -8,13 +8,12 @@ import QueuePanel from './components/QueuePanel';
 import PlayerBar from './components/PlayerBar';
 import AddSongModal from './components/AddSongModal';
 import Toast from './components/Toast';
-import LastPlayedRail from './components/LastPlayedRail';
+import ThemeEffects from './components/ThemeEffects';
 
 function AppContent() {
   const { loadLibrary, setPlaylists, theme } = usePlayer();
   const [showAddSong, setShowAddSong] = useState(false);
   const [shortcutHelp, setShortcutHelp] = useState(false);
-
   // Load initial backend data
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +39,20 @@ function AppContent() {
     document.body.classList.add(`theme-${activeTheme}`);
   }, [theme]);
 
+  // Theme transition overlay on change
+  useEffect(() => {
+    const overlay = document.getElementById('theme-overlay');
+    if (!overlay) return;
+    const accent = getComputedStyle(document.body).getPropertyValue('--accent').trim() || '#1db954';
+    overlay.style.background = `radial-gradient(circle, ${accent}22 0%, transparent 70%)`;
+    overlay.classList.remove('animating');
+    // Trigger reflow
+    void overlay.offsetWidth;
+    overlay.classList.add('animating');
+    const timer = setTimeout(() => overlay.classList.remove('animating'), 700);
+    return () => clearTimeout(timer);
+  }, [theme]);
+
   // Global keydown listeners for shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -55,6 +68,12 @@ function AppContent() {
 
   return (
     <div className="app-layout">
+      {/* Theme transition overlay */}
+      <div id="theme-overlay" />
+
+      {/* Ambient theme-specific effects (aurora, starfield, sun rays, dust motes) */}
+      <ThemeEffects />
+
       {/* Toast notifications */}
       <Toast />
 
@@ -64,7 +83,6 @@ function AppContent() {
       {/* Main Content Area */}
       <main className="main-content">
         <TopBar onAddSong={() => setShowAddSong(true)} />
-        <LastPlayedRail />
         <Hero />
       </main>
 

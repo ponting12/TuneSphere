@@ -80,6 +80,33 @@
       "videoId": "95I5VaR7GeU",
       "artwork": "https://i.ytimg.com/vi/95I5VaR7GeU/mqdefault.jpg",
       "createdAt": "2026-07-22T13:48:10.443Z"
+    },
+    {
+      "_id": "track_1784728330370_711",
+      "isFavorite": false,
+      "title": "Lyrical: Khairiyat | Chhichhore | Nitesh Tiwari | Arijit Singh | Sushant, Shraddha | Pritam",
+      "artist": "T-Series",
+      "videoId": "9-AKLAfpjrI",
+      "artwork": "https://i.ytimg.com/vi/9-AKLAfpjrI/mqdefault.jpg",
+      "createdAt": "2026-07-22T13:52:10.370Z"
+    },
+    {
+      "_id": "track_1784737868667_430",
+      "isFavorite": true,
+      "title": "#Bolbam Song 2026|| गउरा हो हस द ना || Pawan Singh || Gaura Ho Has Da Na- Chandani Singh || Kanwar",
+      "artist": "Wave Bhakti Special",
+      "videoId": "f2HNC5Og9ks",
+      "artwork": "https://i.ytimg.com/vi/f2HNC5Og9ks/mqdefault.jpg",
+      "createdAt": "2026-07-22T16:31:08.667Z"
+    },
+    {
+      "_id": "track_1784738100422_829",
+      "isFavorite": false,
+      "title": "पवन सिंह ने इस गीत से धूम मचाया पुरे देवघर में - हमार जोगिया - #pawan singh - Bol Bam Dj Remix 2024",
+      "artist": "Bhojpuri Bhakti",
+      "videoId": "-pSan9Qa5pM",
+      "artwork": "https://i.ytimg.com/vi/-pSan9Qa5pM/mqdefault.jpg",
+      "createdAt": "2026-07-22T16:35:00.422Z"
     }
   ],
   "playlists": []

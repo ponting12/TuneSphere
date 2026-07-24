@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { usePlayer } from '../context/PlayerContext';
 import TrackCard from './TrackCard';
+import NowPlayingCard from './NowPlayingCard';
+import LastPlayedRail from './LastPlayedRail';
 
 const DEFAULT_ART = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23333' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='none' stroke='%23333' stroke-width='2'/><circle cx='50' cy='50' r='3' fill='%23333'/></svg>";
 
@@ -40,7 +42,7 @@ export default function Hero() {
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
 
-      const accent = getComputedStyle(document.body).getPropertyValue('--text').trim() || '#ffffff';
+      const accent = getComputedStyle(document.body).getPropertyValue('--accent').trim() || '#1db954';
       const cx = W / 2, cy = H / 2;
       const radius = Math.min(W, H) * 0.4;
       const bars = 60, now = Date.now() / 1000;
@@ -82,15 +84,15 @@ export default function Hero() {
             <canvas ref={heroCanvasRef} className="visualizer-canvas" aria-hidden="true" />
           </div>
         </div>
-        <div className="hero-info">
-          <div className="hero-badge">{isPlaying ? 'NOW PLAYING' : 'NOW STREAMING'}</div>
-          <h1 className="hero-track-title">{currentTrack?.title || 'TuneSphere'}</h1>
-          <p className="hero-track-artist">{currentTrack?.artist || 'Click a track to play'}</p>
+        <div className="hero-info" style={{ flex: 1, maxWidth: 420 }}>
+          <NowPlayingCard />
           <div className="hero-actions">
             <button className="btn-primary" onClick={playLibrary}>▶ Play Library</button>
           </div>
         </div>
       </section>
+
+      <LastPlayedRail />
 
       {/* Track Grid */}
       <div className="tracks-grid-wrapper">
