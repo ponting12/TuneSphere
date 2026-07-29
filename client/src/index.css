@@ -142,7 +142,12 @@ button {
   width: 28px;
   height: 28px;
   fill: var(--text);
-  transition: fill var(--transition-normal);
+  transition: fill var(--transition-normal), filter var(--transition-normal), transform var(--transition-fast);
+}
+
+.sidebar-brand:hover .brand-logo-svg {
+  filter: drop-shadow(0 0 10px var(--accent-glow)) drop-shadow(0 0 20px var(--accent-glow));
+  transform: scale(1.08);
 }
 
 .brand-title {
@@ -246,6 +251,11 @@ button {
   background: var(--text);
   color: var(--bg);
   border-color: var(--text);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.btn-icon-plus {
+  transition: var(--transition-fast), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .playlist-list {
@@ -948,6 +958,20 @@ button {
   position: relative;
 }
 
+.player-art-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+
+.player-art-container:hover::after {
+  transform: translateX(100%);
+}
+
 .player-art-container img {
   width: 100%;
   height: 100%;
@@ -1084,6 +1108,33 @@ button {
   background: var(--border);
   border-radius: 99px;
   position: relative;
+  transition: height 0.2s ease;
+}
+
+.range-container:hover {
+  height: 6px;
+}
+
+.range-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text);
+  box-shadow: 0 0 12px var(--accent-glow);
+  opacity: 0;
+  left: calc(var(--range-progress, 0%) - 6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.range-container:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
 }
 
 .range-container input[type="range"] {
@@ -1104,6 +1155,11 @@ button {
   background: var(--text);
   border-radius: 99px;
   z-index: 1;
+  transition: background 0.2s ease;
+}
+
+.range-container:hover .range-progress {
+  background: var(--accent);
 }
 
 .player-right {
@@ -1705,6 +1761,172 @@ button {
 
 .np-spotify-track:hover {
   height: 6px;
+}
+
+/* =============================================================
+   CONTINUE LISTENING RAIL (Recently Played)
+   ============================================================= */
+
+.last-played-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.last-played-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.last-played-heading-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.last-played-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.last-played-subtitle {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.last-played-view-all {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 4px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: transparent;
+}
+
+.last-played-view-all:hover {
+  color: var(--text);
+  border-color: var(--text);
+  background: var(--bg-panel-light);
+}
+
+/* Vertical list */
+.last-played-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.last-played-grid::-webkit-scrollbar {
+  width: 3px;
+}
+
+.last-played-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.last-played-grid::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+}
+
+/* Individual list item */
+.last-played-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  color: var(--text);
+  transition: background 0.2s ease;
+  width: 100%;
+}
+
+.last-played-card:hover {
+  background: var(--bg-panel-light);
+}
+
+.last-played-card:active {
+  background: var(--selection);
+}
+
+/* Small album art */
+.last-played-card .last-played-art-wrap {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #000;
+}
+
+.last-played-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Play overlay */
+.last-played-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.last-played-card:hover .last-played-play-overlay {
+  opacity: 1;
+}
+
+.last-played-play-icon {
+  font-size: 0.6rem;
+  color: #fff;
+}
+
+/* Text info */
+.last-played-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.last-played-title-text {
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+.last-played-artist-text {
+  font-size: 0.68rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* GENERAL DIALOG */

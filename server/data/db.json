@@ -7,7 +7,7 @@
       "videoId": "W1S9AbHpWFY",
       "artwork": "https://img.youtube.com/vi/W1S9AbHpWFY/mqdefault.jpg",
       "isDemo": true,
-      "isFavorite": false
+      "isFavorite": true
     },
     {
       "_id": "demo2",
@@ -107,6 +107,42 @@
       "videoId": "-pSan9Qa5pM",
       "artwork": "https://i.ytimg.com/vi/-pSan9Qa5pM/mqdefault.jpg",
       "createdAt": "2026-07-22T16:35:00.422Z"
+    },
+    {
+      "_id": "track_1785232590511_128",
+      "isFavorite": true,
+      "title": "#Video | बर्बादी होई | #शिल्पी राज का सुपरहिट वायरल भोजपुरी गाना | Barbaadi Hoi | Bhojpuri Song 2026",
+      "artist": "Shilpi Raj Hits",
+      "videoId": "u9BdaJTWeiw",
+      "artwork": "https://i.ytimg.com/vi/u9BdaJTWeiw/mqdefault.jpg",
+      "createdAt": "2026-07-28T09:56:30.512Z"
+    },
+    {
+      "_id": "track_1785235490492_318",
+      "isFavorite": false,
+      "title": "ए मुखिया जी मन होखे त बोली (Video) #Pawan Singh | A Mukhiya Ji Man Hokhe Ta Boli | Bhojpuri Song",
+      "artist": "Wave Music",
+      "videoId": "tO9i5m4-mqA",
+      "artwork": "https://i.ytimg.com/vi/tO9i5m4-mqA/mqdefault.jpg",
+      "createdAt": "2026-07-28T10:44:50.492Z"
+    },
+    {
+      "_id": "track_1785236822127_469",
+      "isFavorite": true,
+      "title": "Tu Pyar Hai Kisi Aur Ka -Lyrical | Dil Hai Ke Manta Nahin | Anuradha P,Kumar Sanu|Aamir Khan,Pooja B",
+      "artist": "T-Series Bollywood Classics",
+      "videoId": "DJHwuJZ2uYg",
+      "artwork": "https://i.ytimg.com/vi/DJHwuJZ2uYg/mqdefault.jpg",
+      "createdAt": "2026-07-28T11:07:02.127Z"
+    },
+    {
+      "_id": "track_1785237713603_953",
+      "isFavorite": false,
+      "title": "Bus Drivers Playlist (Part - 1) 2025 || Hindi Songs || 90s Playlist || #song #youtube #trending",
+      "artist": "Evergreen Playlist",
+      "videoId": "N3e1THoH4DU",
+      "artwork": "https://i.ytimg.com/vi/N3e1THoH4DU/mqdefault.jpg",
+      "createdAt": "2026-07-28T11:21:53.603Z"
     }
   ],
   "playlists": []

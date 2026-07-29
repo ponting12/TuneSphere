@@ -30,11 +30,21 @@ export default function LastPlayedRail() {
 
   if (!tracks.length) return null;
 
+  const handlePlay = (trackId) => {
+    const idx = allTracks.findIndex((x) => x._id === trackId);
+    if (idx >= 0) {
+      setCurrentIndex(idx);
+      setIsPlaying(true);
+    }
+  };
+
   return (
     <section className="last-played-rail">
       <div className="last-played-header">
-        <h2 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 800 }}>Continue listening</h2>
-        <div style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>Your recently played tracks</div>
+        <div className="last-played-heading-left">
+          <h2 className="last-played-title">Continue listening</h2>
+          <span className="last-played-subtitle">Recently played</span>
+        </div>
       </div>
 
       <div className="last-played-grid" role="list">
@@ -42,21 +52,19 @@ export default function LastPlayedRail() {
           <button
             key={t._id}
             className="last-played-card"
-            onClick={() => {
-              const idx = allTracks.findIndex((x) => x._id === t._id);
-              if (idx >= 0) {
-                setCurrentIndex(idx);
-                setIsPlaying(true);
-              }
-            }}
-            title={t.title}
+            onClick={() => handlePlay(t._id)}
+            title={`${t.title} — ${t.artist}`}
           >
-            <img src={t.artwork || DEFAULT_ART} alt="" loading="lazy" />
-            <div className="last-played-meta">
-              <div className="last-played-title">{t.title}</div>
-              <div className="last-played-artist">{t.artist}</div>
+            <div className="last-played-art-wrap">
+              <img src={t.artwork || DEFAULT_ART} alt="" loading="lazy" />
+              <div className="last-played-play-overlay">
+                <span className="last-played-play-icon">▶</span>
+              </div>
             </div>
-            <div className="last-played-play">▶</div>
+            <div className="last-played-meta">
+              <div className="last-played-title-text">{t.title}</div>
+              <div className="last-played-artist-text">{t.artist}</div>
+            </div>
           </button>
         ))}
       </div>
