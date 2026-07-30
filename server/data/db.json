@@ -143,6 +143,51 @@
       "videoId": "N3e1THoH4DU",
       "artwork": "https://i.ytimg.com/vi/N3e1THoH4DU/mqdefault.jpg",
       "createdAt": "2026-07-28T11:21:53.603Z"
+    },
+    {
+      "_id": "track_1785336333473_984",
+      "isFavorite": true,
+      "title": "Video | #Pawan Singh | बानी लइका | #Shilpi Raj | Bani Laika | Birthday Special Song | Bhojpuri Song",
+      "artist": "PAMMY RECORDS BHOJPURI",
+      "videoId": "0D3IVfPNmKI",
+      "artwork": "https://i.ytimg.com/vi/0D3IVfPNmKI/mqdefault.jpg",
+      "createdAt": "2026-07-29T14:45:33.473Z"
+    },
+    {
+      "_id": "track_1785342696552_767",
+      "isFavorite": true,
+      "title": "पवन सिंह ने इस गीत से धूम मचाया पुरे देवघर में - हमार जोगिया - #pawan singh - Bol Bam Dj Remix 2024",
+      "artist": "Bhojpuri Bhakti",
+      "videoId": "-pSan9Qa5pM",
+      "artwork": "https://i.ytimg.com/vi/-pSan9Qa5pM/mqdefault.jpg",
+      "createdAt": "2026-07-29T16:31:36.553Z"
+    },
+    {
+      "_id": "track_1785342770055_839",
+      "isFavorite": false,
+      "title": "पवन सिंह ने इस गीत से धूम मचाया पुरे देवघर में - हमार जोगिया - #pawan singh - Bol Bam Dj Remix 2024",
+      "artist": "Bhojpuri Bhakti",
+      "videoId": "-pSan9Qa5pM",
+      "artwork": "https://i.ytimg.com/vi/-pSan9Qa5pM/mqdefault.jpg",
+      "createdAt": "2026-07-29T16:32:50.056Z"
+    },
+    {
+      "_id": "track_1785342845917_928",
+      "isFavorite": false,
+      "title": "बम बम गूंजता देवघर में - Bum Bum Gunjata - Bol Bum Boli - Khesari Lal Yadav - Kanwar Bhajan",
+      "artist": "Wave Music",
+      "videoId": "n_jRSIC48mI",
+      "artwork": "https://i.ytimg.com/vi/n_jRSIC48mI/mqdefault.jpg",
+      "createdAt": "2026-07-29T16:34:05.917Z"
+    },
+    {
+      "_id": "track_1785343140886_228",
+      "isFavorite": false,
+      "title": "Tu Pyar Hai Kisi Aur Ka -Lyrical | Dil Hai Ke Manta Nahin | Anuradha P,Kumar Sanu|Aamir Khan,Pooja B",
+      "artist": "T-Series Bollywood Classics",
+      "videoId": "DJHwuJZ2uYg",
+      "artwork": "https://i.ytimg.com/vi/DJHwuJZ2uYg/mqdefault.jpg",
+      "createdAt": "2026-07-29T16:39:00.898Z"
     }
   ],
   "playlists": []
