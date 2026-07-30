@@ -309,6 +309,10 @@ button {
   color: var(--danger);
 }
 
+.btn-delete-playlist:active {
+  transform: scale(0.9);
+}
+
 /* Sidebar theme toggle */
 .theme-toggle-container {
   display: flex;
@@ -348,6 +352,10 @@ button {
 .btn-theme-toggle:hover {
   border-color: var(--border-focus);
   background: var(--bg);
+}
+
+.btn-theme-toggle:active {
+  transform: scale(0.97);
 }
 
 .btn-theme-toggle .toggle-icon {
@@ -466,12 +474,17 @@ button {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--muted);
-  transition: var(--transition-fast);
+  transition: var(--transition-fast), transform var(--transition-fast);
 }
 
 .btn-mode-tab:hover {
   color: var(--text);
   background: var(--bg-panel-light);
+  transform: scale(1.05);
+}
+
+.btn-mode-tab:active {
+  transform: scale(0.95);
 }
 
 .btn-mode-tab.active {
@@ -632,7 +645,7 @@ button {
   border-radius: var(--radius-md);
   font-size: 0.85rem;
   font-weight: 600;
-  transition: opacity var(--transition-fast);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
 
 .btn-primary:hover {
@@ -832,12 +845,17 @@ button {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: var(--transition-fast), transform var(--transition-fast);
 }
 
 .upload-btn:hover {
   border-color: var(--border-focus);
   background: var(--bg-panel-light);
+  transform: scale(1.05);
+}
+
+.upload-btn:active {
+  transform: scale(0.95);
 }
 
 .btn-ghost {
@@ -846,12 +864,17 @@ button {
   font-weight: 600;
   border-radius: var(--radius-md);
   color: var(--muted);
-  transition: var(--transition-fast);
+  transition: var(--transition-fast), transform var(--transition-fast);
 }
 
 .btn-ghost:hover {
   color: var(--text);
   background: var(--bg-panel-light);
+  transform: scale(1.05);
+}
+
+.btn-ghost:active {
+  transform: scale(0.95);
 }
 
 .queue-list {
@@ -1271,11 +1294,16 @@ button {
 .btn-close {
   font-size: 1.5rem;
   color: var(--muted);
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
 .btn-close:hover {
   color: var(--text);
+  transform: scale(1.2) rotate(90deg);
+}
+
+.btn-close:active {
+  transform: scale(0.9) rotate(90deg);
 }
 
 .add-tabs {
@@ -1291,11 +1319,17 @@ button {
   font-weight: 600;
   color: var(--muted);
   border-bottom: 2px solid transparent;
-  transition: var(--transition-fast);
+  transition: var(--transition-fast), transform var(--transition-fast);
 }
 
 .add-tab-btn:hover {
   color: var(--text);
+  background: var(--bg-panel-light);
+  transform: scale(1.03);
+}
+
+.add-tab-btn:active {
+  transform: scale(0.97);
 }
 
 .add-tab-btn.active {
@@ -1430,6 +1464,12 @@ button {
 .yt-result-play-btn {
   font-size: 0.85rem;
   color: var(--muted);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.yt-result-item:hover .yt-result-play-btn {
+  color: var(--text);
+  transform: scale(1.2);
 }
 
 /* ── NOW PLAYING CARD (Premium Spotify-style) ────────────────── */
@@ -1633,6 +1673,10 @@ button {
   background: var(--bg-panel);
 }
 
+.np-spotify-fav:active {
+  transform: scale(0.9);
+}
+
 .np-spotify-fav-active {
   color: var(--accent) !important;
   background: var(--accent-bg-glow) !important;
@@ -1666,6 +1710,10 @@ button {
   color: var(--text);
   transform: scale(1.1);
   background: var(--bg-panel-light);
+}
+
+.np-spotify-ctrl-btn:active {
+  transform: scale(0.92);
 }
 
 .np-spotify-main-play-btn {
