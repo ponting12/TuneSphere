@@ -91,6 +91,16 @@ html, body {
   background: var(--text);
 }
 
+/* Scrollbar widens when hovering scrollable areas */
+.page:hover::-webkit-scrollbar,
+.queue-list:hover::-webkit-scrollbar,
+.sidebar-section:hover::-webkit-scrollbar,
+.last-played-grid:hover::-webkit-scrollbar,
+.yt-results-grid:hover::-webkit-scrollbar,
+.dialog-body:hover::-webkit-scrollbar {
+  width: 6px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -244,7 +254,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition-fast);
+  transition: var(--transition-fast), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .btn-icon-plus:hover {
@@ -252,10 +262,6 @@ button {
   color: var(--bg);
   border-color: var(--text);
   transform: rotate(90deg) scale(1.1);
-}
-
-.btn-icon-plus {
-  transition: var(--transition-fast), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .playlist-list {
@@ -417,6 +423,7 @@ button {
 
 .search-box:focus-within {
   border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-bg-glow), 0 0 20px var(--accent-glow);
 }
 
 .search-icon {
@@ -474,7 +481,27 @@ button {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--muted);
-  transition: var(--transition-fast), transform var(--transition-fast);
+  transition: var(--transition-fast), transform var(--transition-fast), color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-mode-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-mode-tab:hover::after,
+.btn-mode-tab.active::after {
+  transform: scaleX(1);
 }
 
 .btn-mode-tab:hover {
@@ -645,7 +672,9 @@ button {
   border-radius: var(--radius-md);
   font-size: 0.85rem;
   font-weight: 600;
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  position: relative;
+  overflow: visible;
 }
 
 .btn-primary:hover {
@@ -656,6 +685,26 @@ button {
 
 .btn-primary:active {
   transform: scale(0.96);
+}
+
+/* Pulse ring on hover */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--accent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.btn-primary:hover::after {
+  animation: btnPulseRing 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+@keyframes btnPulseRing {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
 }
 
 @keyframes spin {
@@ -683,7 +732,7 @@ button {
   padding: 12px;
   cursor: pointer;
   position: relative;
-  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-normal), box-shadow var(--transition-normal);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -691,6 +740,12 @@ button {
 
 .track-card:hover {
   border-color: var(--border-focus);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 16px var(--accent-glow);
+}
+
+.track-card:active {
+  transform: translateY(-2px) scale(0.98);
 }
 
 .track-card.selected {
@@ -790,11 +845,20 @@ button {
   color: var(--muted);
   cursor: pointer;
   padding: 4px;
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .track-card:hover .track-actions {
   color: var(--text);
+}
+
+.track-actions:hover {
+  transform: scale(1.35);
+  color: var(--accent);
+}
+
+.track-actions:active {
+  transform: scale(0.85);
 }
 
 .track-progress {
@@ -893,11 +957,14 @@ button {
   border-radius: var(--radius-md);
   cursor: pointer;
   border: 1px solid transparent;
-  transition: var(--transition-fast);
+  border-left: 3px solid transparent;
+  transition: var(--transition-fast), border-left-color 0.25s ease, transform 0.2s ease;
 }
 
 .queue-item:hover {
   background: var(--bg-panel-light);
+  border-left-color: var(--accent);
+  transform: translateX(3px);
 }
 
 .queue-item.playing {
@@ -911,6 +978,11 @@ button {
   border-radius: var(--radius-sm);
   overflow: hidden;
   flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.queue-item:hover .queue-thumb {
+  transform: scale(1.15);
 }
 
 .queue-thumb img {
@@ -1027,21 +1099,22 @@ button {
   font-size: 1.1rem;
   color: var(--muted);
   padding: 4px;
-  transition: color var(--transition-fast), transform var(--transition-fast);
+  transition: color var(--transition-fast), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .favorite-heart-btn:hover {
   color: var(--text);
-  transform: scale(1.25);
+  transform: scale(1.35);
 }
 
 .favorite-heart-btn.favorited {
   color: var(--text);
+  text-shadow: 0 0 8px var(--accent-glow);
 }
 
 .favorite-heart-btn.favorited:hover {
   color: var(--accent);
-  transform: scale(1.25);
+  transform: scale(1.35);
   animation: heartbeat 0.4s ease;
 }
 
@@ -1481,8 +1554,13 @@ button {
   border-radius: 16px;
   overflow: hidden;
   position: relative;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-normal);
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.np-spotify-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 56px rgba(0, 0, 0, 0.6), 0 0 32px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* Subtle radial glow overlay */
@@ -1702,11 +1780,23 @@ button {
   font-size: 1.15rem;
   color: var(--muted);
   padding: 8px;
-  transition: color var(--transition-fast), transform var(--transition-fast);
+  transition: color var(--transition-fast), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background var(--transition-fast);
   border-radius: 50%;
 }
 
-.np-spotify-ctrl-btn:hover {
+.np-spotify-ctrl-btn:nth-child(1):hover {
+  color: var(--text);
+  transform: scale(1.1) rotate(-15deg);
+  background: var(--bg-panel-light);
+}
+
+.np-spotify-ctrl-btn:nth-child(3):hover {
+  color: var(--text);
+  transform: scale(1.1) rotate(15deg);
+  background: var(--bg-panel-light);
+}
+
+.np-spotify-ctrl-btn:nth-child(2):hover {
   color: var(--text);
   transform: scale(1.1);
   background: var(--bg-panel-light);
@@ -1900,12 +1990,14 @@ button {
   text-align: left;
   font-family: inherit;
   color: var(--text);
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
   width: 100%;
 }
 
 .last-played-card:hover {
   background: var(--bg-panel-light);
+  transform: scale(1.02);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 0 12px var(--accent-glow);
 }
 
 .last-played-card:active {
@@ -1937,18 +2029,24 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.45);
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, background 0.2s ease;
 }
 
 .last-played-card:hover .last-played-play-overlay {
   opacity: 1;
+  background: rgba(0,0,0,0.3);
 }
 
 .last-played-play-icon {
   font-size: 0.6rem;
   color: #fff;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.last-played-card:hover .last-played-play-icon {
+  transform: scale(1.4);
 }
 
 /* Text info */
@@ -2237,10 +2335,6 @@ button {
   -webkit-backdrop-filter: blur(4px);
   background: var(--glass-bg) !important;
   transition: background var(--transition-normal), backdrop-filter var(--transition-normal), transform var(--transition-fast);
-}
-
-.track-card:hover {
-  transform: translateY(-2px);
 }
 
 /* ── 4. Theme Transition Overlay ─────────────────────────── */
