@@ -113,7 +113,10 @@ const dbService = {
       writeLocalDb(data);
       return track;
     }
-    return await Track.findByIdAndDelete(id);
+    const track = await Track.findByIdAndDelete(id);
+    if (!track) throw new Error('Track not found');
+    await Playlist.updateMany({}, { $pull: { tracks: id } });
+    return track;
   },
 
   // --- PLAYLISTS ---

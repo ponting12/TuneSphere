@@ -20,9 +20,11 @@ export default function PlayerBar() {
   const pendingVideoIdRef = useRef(null);  // videoId to load when YT becomes ready
   const loadedVideoIdRef  = useRef(null);  // videoId currently loaded in YT player
   const isPlayingRef = useRef(isPlaying);  // keep latest isPlaying for callbacks
+  const repeatRef = useRef(repeat);
 
-  // Keep isPlayingRef in sync
+  // Keep refs in sync
   isPlayingRef.current = isPlaying;
+  repeatRef.current = repeat;
 
   // ── Load YouTube IFrame API once ────────────────────────
   useEffect(() => {
@@ -69,7 +71,7 @@ export default function PlayerBar() {
               } else if (e.data === S.ENDED) {
                 clearInterval(ytTimer.current);
                 setIsPlaying(false);
-                if (repeat) { ytRef.current.seekTo(0); ytRef.current.playVideo(); }
+                if (repeatRef.current) { ytRef.current.seekTo(0); ytRef.current.playVideo(); }
                 else nextTrack();
               }
             },
@@ -101,7 +103,7 @@ export default function PlayerBar() {
         document.head.appendChild(tag);
       }
     }
-  }, [repeat, nextTrack, setIsPlaying, setCurrentTime, setDuration, showToast]);
+  }, [nextTrack, setIsPlaying, setCurrentTime, setDuration, showToast]);
 
   // ── React to track changes ───────────────────────────────
   useEffect(() => {

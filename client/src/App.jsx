@@ -11,7 +11,17 @@ import Toast from './components/Toast';
 import ThemeEffects from './components/ThemeEffects';
 
 function AppContent() {
-  const { loadLibrary, setPlaylists, theme } = usePlayer();
+  const {
+    loadLibrary,
+    setPlaylists,
+    theme,
+    togglePlay,
+    nextTrack,
+    prevTrack,
+    toggleMute,
+    toggleShuffle,
+    toggleRepeat,
+  } = usePlayer();
   const [showAddSong, setShowAddSong] = useState(false);
   const [shortcutHelp, setShortcutHelp] = useState(false);
   // Load initial backend data
@@ -60,11 +70,32 @@ function AppContent() {
       if (e.key === '?') {
         e.preventDefault();
         setShortcutHelp(prev => !prev);
+        return;
+      }
+      const key = e.key.toLowerCase();
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (key === 'n') {
+        e.preventDefault();
+        nextTrack();
+      } else if (key === 'p') {
+        e.preventDefault();
+        prevTrack();
+      } else if (key === 'm') {
+        e.preventDefault();
+        toggleMute();
+      } else if (key === 's') {
+        e.preventDefault();
+        toggleShuffle();
+      } else if (key === 'r') {
+        e.preventDefault();
+        toggleRepeat();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [togglePlay, nextTrack, prevTrack, toggleMute, toggleShuffle, toggleRepeat]);
 
   return (
     <div className="app-layout">

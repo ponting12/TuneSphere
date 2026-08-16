@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { usePlayer } from '../context/PlayerContext';
 import { addYouTubeTrack, searchYouTube } from '../services/api';
 
+const DEFAULT_ART = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23333' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='none' stroke='%23333' stroke-width='2'/><circle cx='50' cy='50' r='3' fill='%23333'/></svg>";
+
 function extractYouTubeId(url) {
   const patterns = [
     /[?&]v=([a-zA-Z0-9_-]{11})/,
@@ -48,7 +50,7 @@ export default function AddSongModal({ onClose }) {
         showToast('YouTube track added!', '▶');
       } catch { showToast('Failed to add YouTube track', '⚠️'); }
     } else if (raw.startsWith('http')) {
-      const t = { _id: Date.now().toString(), title: raw.split('/').pop().split('?')[0] || 'Track', artist: 'External', artwork: '/bgimage.jpg', src: raw };
+      const t = { _id: Date.now().toString(), title: raw.split('/').pop().split('?')[0] || 'Track', artist: 'External', artwork: DEFAULT_ART, src: raw };
       addAndPlay(t);
       showToast('Track added!', '🎵');
     } else {

@@ -87,7 +87,7 @@ router.delete('/:id', async (req, res) => {
     if (!track) return res.status(404).json({ error: 'Track not found' });
     // Remove local file if it exists
     if (track.isUpload && track.src) {
-      const filePath = path.join(__dirname, '..', track.src);
+      const filePath = path.join(__dirname, '..', 'uploads', path.basename(track.src));
       const fs = require('fs');
       if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     }

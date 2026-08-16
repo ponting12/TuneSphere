@@ -4,7 +4,7 @@ import { usePlayer } from '../context/PlayerContext';
 const DEFAULT_ART = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23333' stroke-width='4'/><circle cx='50' cy='50' r='12' fill='none' stroke='%23333' stroke-width='2'/><circle cx='50' cy='50' r='3' fill='%23333'/></svg>";
 
 export default function LastPlayedRail() {
-  const { allTracks, setCurrentIndex, setIsPlaying } = usePlayer();
+  const { allTracks, tracks: viewTracks, switchView, setCurrentIndex, setIsPlaying } = usePlayer();
 
   const lastIds = useMemo(() => {
     try {
@@ -31,11 +31,17 @@ export default function LastPlayedRail() {
   if (!tracks.length) return null;
 
   const handlePlay = (trackId) => {
-    const idx = allTracks.findIndex((x) => x._id === trackId);
-    if (idx >= 0) {
-      setCurrentIndex(idx);
+    const idxInView = viewTracks.findIndex((x) => x._id === trackId);
+    if (idxInView >= 0) {
+      setCurrentIndex(idxInView);
       setIsPlaying(true);
+      return;
     }
+    const idxInAll = allTracks.findIndex((x) => x._id === trackId);
+    if (idxInAll < 0) return;
+    switchView('all');
+    setCurrentIndex(idxInAll);
+    setIsPlaying(true);
   };
 
   return (
