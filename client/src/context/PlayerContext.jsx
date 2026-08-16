@@ -50,7 +50,10 @@ export function PlayerProvider({ children }) {
   // Filtered view
   const switchView = useCallback((mode, playlistTracks = null) => {
     setViewMode(mode);
-    if (mode === 'youtube_search') return;
+    if (mode === 'youtube_search') {
+      setCurrentIndex(0);
+      return;
+    }
     let filtered = [];
     if (mode === 'all')       filtered = [...allTracks];
     else if (mode === 'favorites') filtered = allTracks.filter(t => t.isFavorite);
@@ -79,7 +82,17 @@ export function PlayerProvider({ children }) {
     try {
       await apiDeleteTrack(trackId);
       setAllTracks(prev => prev.filter(t => t._id !== trackId));
-      setTracks(prev => prev.filter(t => t._id !== trackId));
+      setTracks(prev => {
+        const deletedIdx = prev.findIndex(t => t._id === trackId);
+        const next = prev.filter(t => t._id !== trackId);
+        setCurrentIndex(ci => {
+          if (deletedIdx < 0) return ci;
+          if (ci > deletedIdx) return ci - 1;
+          if (ci >= next.length) return Math.max(0, next.length - 1);
+          return ci;
+        });
+        return next;
+      });
       showToast('Track deleted from library', '🗑️');
     } catch (e) {
       showToast('Failed to delete track', '⚠️');
